@@ -27,7 +27,7 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  final List<String> nav = ['Список 1', 'Список 2'];
+  final List<String> nav = ['Мои фото', 'Галерея'];
   final List fakeData = List.generate(100, (index) => index.toString());
 
   Map<String, dynamic> data = {
@@ -64,15 +64,25 @@ class _MyHomePageState extends State<MyHomePage> {
       child: Scaffold(
         appBar: AppBar(
           title: Text('Homework example'),
+          bottom: TabBar(
+            tabs: [
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Text(nav.first),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Text(nav.last),
+              ),
+            ],
+          ),
         ),
         body: TabBarView(
           children: nav.map((name) {
             return ListView(
               key: PageStorageKey(name),
               children: <Widget>[
-                ...fakeData.map((e) {
-                  return Text(e);
-                }).toList()
+                ...(data[name] as List).map((e) => Image.network(e)).toList()
               ],
             );
           }).toList(),
